@@ -21,7 +21,6 @@ from textwrap import dedent
 from lru import LRU
 import bcolz
 from bcolz import ctable
-import h5py
 from intervaltree import IntervalTree
 import logbook
 import numpy as np

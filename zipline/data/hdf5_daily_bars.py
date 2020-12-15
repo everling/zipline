@@ -100,7 +100,6 @@ Sample layout of the full file with multiple countries.
 
 from functools import partial
 
-import h5py
 import logbook
 import numpy as np
 import pandas as pd
