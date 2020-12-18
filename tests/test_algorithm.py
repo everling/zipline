@@ -30,7 +30,6 @@ from testfixtures import TempDirectory
 import numpy as np
 import pandas as pd
 import pytz
-from pandas.core.common import PerformanceWarning
 from trading_calendars import get_calendar, register_calendar
 
 import zipline.api
@@ -128,7 +127,8 @@ from zipline.utils.events import (
     Never,
     OncePerDay,
 )
-import zipline.utils.factory as factory
+from zipline.utils import factory
+from zipline.utils.pandas_utils import PerformanceWarning
 
 # Because test cases appear to reuse some resources.
 
@@ -917,7 +917,7 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
             0,
         ]
         for i, expected in enumerate(expected_position_count):
-            self.assertEqual(result.ix[i]['num_positions'], expected)
+            self.assertEqual(result.iloc[i]['num_positions'], expected)
 
     def test_noop_orders(self):
         asset = self.asset_finder.retrieve_asset(1)

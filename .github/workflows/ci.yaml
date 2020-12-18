@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - new-new-new
   pull_request:
     branches:
       - master
@@ -16,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: [3.5, 3.6]
+        python-version: [3.5, 3.6, 3.8]
     steps:
     - uses: actions/checkout@v2
       with:
@@ -39,14 +40,23 @@ jobs:
       if: startsWith(matrix.os, 'macos')
       run: |
         brew install ta-lib
+    - name: Install c-blosc (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew install c-blosc
+        echo "BLOSC_DIR=`brew --cellar`" >> $GITHUB_ENV
     - name: Set Lockfile py 35
       if: matrix.python-version == 3.5
       run: |
-        echo ::set-env name=PIP_CONSTRAINT::etc/requirements_locked.txt
+        echo "PIP_CONSTRAINT=etc/requirements_locked.txt" >> $GITHUB_ENV
     - name: Set Lockfile py36
       if: matrix.python-version == 3.6
       run: |
-        echo ::set-env name=PIP_CONSTRAINT::etc/requirements_py36_locked.txt
+        echo "PIP_CONSTRAINT=etc/requirements_py36_locked.txt" >> $GITHUB_ENV
+    - name: Set Lockfile py38
+      if: matrix.python-version == 3.8
+      run: |
+        echo "PIP_CONSTRAINT=etc/requirements_py38_locked.txt" >> $GITHUB_ENV
     - name: Get pip cache dir
       id: pip-cache
       run: |
